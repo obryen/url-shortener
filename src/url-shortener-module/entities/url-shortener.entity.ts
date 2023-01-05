@@ -3,6 +3,7 @@ import {
     Entity,
     OneToMany,
     PrimaryGeneratedColumn,
+    UpdateDateColumn,
 } from 'typeorm';
 import { ShortUrlEvent } from './short-url-events.entity';
 
@@ -32,7 +33,7 @@ export class ShortUrlMapping {
     })
     shortUrl: string;
 
-    @Column({ type: 'timestamp', name: 'created_at', nullable: false })
+    @UpdateDateColumn({ type: 'timestamp', name: 'created_at', nullable: false, default: 'now()', generated: 'identity' })
     createdAt: Date;
     @OneToMany(() => ShortUrlEvent, (entity) => entity.shortUrlMapping, {
         cascade: ['insert', 'update'],
