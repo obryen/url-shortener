@@ -6,12 +6,14 @@ import { getConfigFromEnv } from './common/config/configuration.dto';
 import { UrlShortenerModule } from './url-shortener-module/url-shortener.module';
 
 @Module({
-  imports: [ConfigModule.forRoot({
-    isGlobal: true,
-    ignoreEnvFile: false,
-    load: [getConfigFromEnv],
-  }),
-  TypeOrmModule.forRoot(getOrmConfiguration()),
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      ignoreEnvFile: false,
+      load: [getConfigFromEnv],
+    }),
+    // @ts-ignore
+    TypeOrmModule.forRoot(getOrmConfiguration()),
     UrlShortenerModule
   ],
 
