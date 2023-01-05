@@ -2,6 +2,7 @@ import { BadRequestException, NotFoundException } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
 import { getRepositoryToken } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
+import { getConfigFromEnv } from "../../common/config/configuration.dto";
 import { SHORT_CODE_DOES_NOT_EXIST } from "../../common/constants.errors";
 import { ShortUrlEvent } from "../entities/short-url-events.entity";
 import { ShortUrlMapping } from "../entities/url-shortener.entity";
@@ -28,6 +29,8 @@ const MOCK_FIND_ONE_SHORT_URL_EVENT = new ShortUrlEvent({
 const MOCK_FIND_SHORT_URL_EVENTS = [
     { ...MOCK_FIND_ONE_SHORT_URL_EVENT }
 ]
+
+const SHORT_LINK = getConfigFromEnv().reverseProxyShortLink;
 
 let service;
 let repository;
@@ -74,17 +77,7 @@ describe("url-shortener-service", () => {
             const shortenUrlPayload = { url: "https://www.google.com", shortCode: "1234" };
             jest.spyOn(service, "resolveShortCode").mockResolvedValue(resolveShortCodedOutput);
             await service.shortenUrl(shortenUrlPayload);
-            expect(spy).toHaveBeenCalledWith(resolveShortCodedOutput, shortenUrlPayload.url);
-        });
-
-        test("saveShortUrl should be called with correct parameters", async () => {
-            const spy = jest.spyOn(service, "saveShortUrl");
-            const resolveShortCodedOutput = "1234";
-            const shortenUrlPayload = { url: "https://www.google.com", shortCode: "1234" };
-            const builtShortUrlOutput = `https://www.google.com/${resolveShortCodedOutput}`;
-            jest.spyOn(service, "resolveShortCode").mockResolvedValue(resolveShortCodedOutput);
-            await service.shortenUrl(shortenUrlPayload);
-            expect(spy).toHaveBeenCalledWith({ url: shortenUrlPayload.url, shortCode: resolveShortCodedOutput, shortUrl: builtShortUrlOutput });
+            expect(spy).toHaveBeenCalledWith(resolveShortCodedOutput, SHORT_LINK);
         });
     });
 

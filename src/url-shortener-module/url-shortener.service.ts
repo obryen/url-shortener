@@ -20,7 +20,6 @@ export class UrlShortenerService {
   ) {
     this.proxyLink = getConfigFromEnv().reverseProxyShortLink;
   }
-
   async shortenUrl(shortenRequest: IshortenerRequest): Promise<{ shortUrl: string }> {
     const shortCode = await this.resolveShortCode(shortenRequest);
     const shortUrl = this.buildShortUrl(shortCode, this.proxyLink);
