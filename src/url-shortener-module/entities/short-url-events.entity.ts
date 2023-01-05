@@ -1,5 +1,6 @@
 import {
     Column,
+    CreateDateColumn,
     Entity,
     JoinColumn,
     ManyToOne,
@@ -19,7 +20,7 @@ export class ShortUrlEvent {
     @Column({ type: 'uuid', name: 'short_url_id', nullable: false })
     shortUrlId: string;
 
-    @Column({ type: 'timestamp', name: 'created_at', nullable: false })
+    @CreateDateColumn({ type: 'timestamp', name: 'created_at', nullable: false, default: 'now()' })
     createdAt: Date;
 
     @ManyToOne(() => ShortUrlMapping, (entity) => entity.shortUrlEvents)
