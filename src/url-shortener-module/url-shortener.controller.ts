@@ -28,7 +28,7 @@ export class ShortenerController {
   }
 
   @Post("submit")
-  async shorten(@Body() shortenerReq: IshortenerRequest): Promise<string> {
+  async shorten(@Body() shortenerReq: IshortenerRequest): Promise<{ shortUrl: string }> {
     if (!shortenerReq.url) throw new BadRequestException(MISSING_URL);
     if (shortenerReq.shortCode?.length < 4) throw new BadRequestException(SHORT_CODE_INPUT_TOO_SMALL);
     return await this.service.shortenUrl(shortenerReq);

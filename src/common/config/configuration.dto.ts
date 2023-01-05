@@ -7,6 +7,7 @@ export class Configuration {
   postgresUsername: string;
   postgresPassword: string;
   syncDatabase: boolean;
+  reverseProxyShortLink: string;
 }
 
 export const getConfigFromEnv = (): Configuration => ({
@@ -17,5 +18,6 @@ export const getConfigFromEnv = (): Configuration => ({
   postgresDatabaseName: process.env.POSTGRES_DATABASE_NAME,
   postgresUsername: process.env.POSTGRES_USERNAME,
   postgresPassword: process.env.POSTGRES_PASSWORD,
-  syncDatabase: Boolean(process.env.SYNC_DATABASE),
+  syncDatabase: false,
+  reverseProxyShortLink: process.env.REVERSE_PROXY_SHORT_LINK,
 });

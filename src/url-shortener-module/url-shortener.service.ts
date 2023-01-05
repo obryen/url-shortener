@@ -7,22 +7,25 @@ import { ShortUrlMapping } from './entities/url-shortener.entity';
 import { IshortenerRequest, IsaveShortenedUrl } from './interfaces/url-shortener.interface';
 import { SHORT_CODE_DOES_NOT_EXIST } from '../common/constants.errors';
 import { IShortenedUrlStats } from './interfaces/url-shortener-stats.interface'
+import { getConfigFromEnv } from '../common/config/configuration.dto';
 
 @Injectable()
 export class UrlShortenerService {
-
+  proxyLink: string;
   constructor(
     @InjectRepository(ShortUrlMapping)
     private readonly urlShortenerRepository: Repository<ShortUrlMapping>,
     @InjectRepository(ShortUrlEvent)
     private readonly urlShortenerEventsRepository: Repository<ShortUrlEvent>
-  ) { }
+  ) {
+    this.proxyLink = getConfigFromEnv().reverseProxyShortLink;
+  }
 
-  async shortenUrl(shortenRequest: IshortenerRequest): Promise<string> {
+  async shortenUrl(shortenRequest: IshortenerRequest): Promise<{ shortUrl: string }> {
     const shortCode = await this.resolveShortCode(shortenRequest);
-    const shortUrl = this.buildShortUrl(shortCode, shortenRequest.url);
+    const shortUrl = this.buildShortUrl(shortCode, this.proxyLink);
     await this.saveShortUrl({ url: shortenRequest.url, shortCode, shortUrl });
-    return shortUrl;
+    return { shortUrl };
   }
 
   async resolveShortCode(shortenRequest: IshortenerRequest): Promise<string> {
@@ -33,7 +36,7 @@ export class UrlShortenerService {
       }
       return shortenRequest.shortCode;
     }
-
+    // @ts-ignore
     return crypto.randomUUID().replace("-", "").substring(0, 6);
   }
 
