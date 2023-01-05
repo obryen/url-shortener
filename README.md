@@ -38,11 +38,6 @@ $ npm install
 # development
 $ npm run start
 
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
 ```
 
 ## Test
@@ -52,13 +47,10 @@ $ npm run start:prod
 $ npm run test
 
 ```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
+````
+POINT TO NOTE:
+$ I have already incorporated a temporary db running on cloud for use in testing and validating the requirements, this will shut down after 7 days
+````
 - Author - [Bryan Toromo]
 
 ## License
