@@ -1,9 +1,9 @@
 import { Response } from 'express';
 import { BadRequestException, Controller, Get } from '@nestjs/common';
 import { Body, Param, Post, Res } from '@nestjs/common/decorators';
-import { IshortenerRequest } from './interfaces/url-shortener.interface';
 import { UrlShortenerService } from './url-shortener.service';
-import { INVALID_SHORT_CODE, MISSING_URL, SHORT_CODE_INPUT_TOO_SMALL } from './constants.errors';
+import { INVALID_SHORT_CODE, MISSING_URL, SHORT_CODE_INPUT_TOO_SMALL } from '../common/constants.errors';
+import { IshortenerRequest } from './interfaces/url-shortener.interface';
 
 @Controller()
 export class ShortenerController {

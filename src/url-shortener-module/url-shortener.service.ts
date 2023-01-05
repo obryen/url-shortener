@@ -1,15 +1,12 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { ShortUrlMapping } from './entities/url-shortener.entity';
-import { IsaveShortenedUrl, IshortenerRequest } from './interfaces/url-shortener.interface';
 import { Response } from 'express';
-import { SHORT_CODE_DOES_NOT_EXIST } from './constants.errors';
-import { ShortUrlEvent as ShortUrlEvent } from './entities/short-url-events.entity';
-import { IShortenedUrlStats as IShortUrlStats } from './interfaces/url-shortener-stats.interface';
-import { stat } from 'fs';
-import { throws } from 'assert';
-import { count } from 'console';
+import { ShortUrlEvent } from './entities/short-url-events.entity';
+import { ShortUrlMapping } from './entities/url-shortener.entity';
+import { IshortenerRequest, IsaveShortenedUrl } from './interfaces/url-shortener.interface';
+import { SHORT_CODE_DOES_NOT_EXIST } from '../common/constants.errors';
+import { IShortenedUrlStats } from './interfaces/url-shortener-stats.interface'
 
 @Injectable()
 export class UrlShortenerService {
@@ -82,20 +79,20 @@ export class UrlShortenerService {
     res.redirect(exisitingUrl.originalUrl);
   }
 
-  async getShortUrlStats(shortCode: string): Promise<IShortUrlStats> {
+  async getShortUrlStats(shortCode: string): Promise<IShortenedUrlStats> {
 
     const shortCodeMapping = await this.fetchShortCodeMapping(shortCode);
 
     const events = await this.urlShortenerEventsRepository.find({
       where: {
-        shortUrlId: shortCodeMapping.id
+        shortUrlId: shortCodeMapping.id,
       },
       order: {
         createdAt: 'DESC'
       }
     })
 
-    const stats: IShortUrlStats = {
+    const stats: IShortenedUrlStats = {
       accessTimes: events.length,
       createdAt: shortCodeMapping.createdAt,
       lastAccess: events[events.length - 1]?.createdAt,

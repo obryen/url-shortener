@@ -2,10 +2,10 @@ import { BadRequestException, NotFoundException } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
 import { getRepositoryToken } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
-import { SHORT_CODE_DOES_NOT_EXIST } from "./constants.errors";
-import { ShortUrlEvent } from "./entities/short-url-events.entity";
-import { ShortUrlMapping } from "./entities/url-shortener.entity";
-import { UrlShortenerService } from "./url-shortener.service";
+import { SHORT_CODE_DOES_NOT_EXIST } from "../../common/constants.errors";
+import { ShortUrlEvent } from "../entities/short-url-events.entity";
+import { ShortUrlMapping } from "../entities/url-shortener.entity";
+import { UrlShortenerService } from "../url-shortener.service";
 
 const MOCK_SAVED_URL_MAPPING: ShortUrlMapping = {
     id: '1',
