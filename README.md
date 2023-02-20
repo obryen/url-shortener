@@ -49,7 +49,6 @@ $ npm run test
 ```
 ````
 POINT TO NOTE:
-$ I have already incorporated a temporary db running on cloud for use in testing and validating the requirements, this will shut down after 7 days
 $ The REVERSE_PROXY_SHORT_LINK value is just a place holder and does not actually redirect the user to the actual URL as there is no nginx setup for this.
 ````
 - Author - [Bryan Toromo]
